@@ -45,7 +45,7 @@ model Subject {
   collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
 
   resume String
-  conversation String
+  conversation String[]
 
   question Question[]
 }
