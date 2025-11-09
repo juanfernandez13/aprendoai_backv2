@@ -35,6 +35,7 @@ export const createSubject = async (data: Prisma.SubjectModel) => {
     return {statusCode: 201, message: "Assunto criado", error: false, data: subject};
 
   } catch (error) {
+    console.error(error)
     return {statusCode: 400, message: "Bad request", error: true};    
   }
 }

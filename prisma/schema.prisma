@@ -43,11 +43,21 @@ model Subject {
 
   collectionId Int
   collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-
-  resume String
-  conversation String[]
+  name String
+  resume String @default("")
+  conversation Conversation[]
 
   question Question[]
+}
+
+model Conversation {
+  id Int @id @default(autoincrement())
+
+  subjectId Int
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  isGenerated Boolean
+  text String
 }
 
 model Question {

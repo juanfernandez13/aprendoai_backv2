@@ -16,7 +16,7 @@ export default async function Handle(req: NextApiRequest, res: NextApiResponse) 
 
   switch(req.method) {
     case 'GET': {
-      const response = await fetchCollection(userId);
+      const response = await fetchCollection(collectionId);
 
       return res.status(response?.statusCode).json(response)
     }

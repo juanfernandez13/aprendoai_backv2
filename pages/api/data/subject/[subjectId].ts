@@ -1,4 +1,4 @@
-import { deleteSubject, fetchSubject } from "@/controllers/subject";
+import { deleteSubject, fetchSubject, updateSubject } from "@/controllers/subject";
 import { verifyToken } from "@/utils/jwt";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -17,6 +17,11 @@ export default async function Handle(req: NextApiRequest, res: NextApiResponse) 
 
     case 'GET': {
       const response = await fetchSubject(subjectId)
+      return res.status(response.statusCode).json(response)
+    }
+    
+    case 'PUT': {
+      const response = await updateSubject(subjectId, req.body)
       return res.status(response.statusCode).json(response)
     }
 

@@ -21,8 +21,9 @@ export const fetchCollection = async (id: number) => {
   try {
     const collection = await prisma.collection.findUnique({
       where: { id },
+      include: {subject: true}
     });
-
+    console.log(collection)
     if(!collection) return {statusCode: 404, message: "Coleção não encontradas", error: true};
 
     return {statusCode: 200, message: "Coleção encontradas", error: false, data: collection};
@@ -38,7 +39,7 @@ export const createCollection = async (data: Prisma.CollectionModel) => {
 
     if(!collection) return {statusCode: 400, message: "Bad request", error: true};
 
-    return {statusCode: 201, message: "Conta criada", error: false, data: collection};
+    return {statusCode: 201, message: "Coleção criada", error: false, data: collection};
 
   } catch (error) {
     return {statusCode: 400, message: "Bad request", error: true};    
@@ -52,7 +53,7 @@ export const updateCollection = async (id: number, data: Partial<Prisma.Collecti
 
     if(!collection) return {statusCode: 404, message: "Coleção não encontrada", error: true};
 
-    return {statusCode: 200, message: "Coleção criada", error: false, data: collection};
+    return {statusCode: 200, message: "Coleção atualizada", error: false, data: collection};
     
   } catch (error) {
     return {statusCode: 400, message: "Bad request", error: true};    
