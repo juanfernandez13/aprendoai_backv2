@@ -16,11 +16,11 @@ export const fetchSubjects = async (collectionId: number) => {
 
 export const fetchSubject = async (id: number) => {
   try {
-    const subjects = await prisma.subject.findUnique({where: { id }});
+    const subject = await prisma.subject.findUnique({where: { id }});
 
-    if(!subjects) return {statusCode: 404, message: "Assunto não encontrado", error: true};
+    if(!subject) return {statusCode: 404, message: "Assunto não encontrado", error: true};
 
-    return {statusCode: 200, message: "Assunto encontrado", error: false, data: subjects};
+    return {statusCode: 200, message: "Assunto encontrado", error: false, data: subject};
   } catch (error) {
     return {statusCode: 400, message: "Bad request", error: true};
   }  

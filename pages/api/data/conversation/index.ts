@@ -1,6 +1,7 @@
-import { createSubject, fetchSubjects } from "@/controllers/subject";
+import { guidedStudy } from "@/controllers/ai/conversation";
+import { createConversation, fetchConversations } from "@/controllers/conversation";
 import { verifyToken } from "@/utils/jwt";
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function Handle(req: NextApiRequest, res: NextApiResponse) {
   const { authorization } = req.headers;
@@ -12,22 +13,25 @@ export default async function Handle(req: NextApiRequest, res: NextApiResponse) 
   const userId = Number(guard.user.id) || -1
 
   if(userId === -1) return res.status(401).json({message: 'Unauthorized', error: true});
+  
+  const subjectId = Number(req.body.subjectId) || -1;
   switch(req.method) {
-
     case 'GET': {
-      const collectionId = Number(req.body.collectionId) || -1;
-      const response = await fetchSubjects(collectionId)
+      const response = await fetchConversations(subjectId);
 
       return res.status(response?.statusCode).json(response)
     }
 
     case 'POST': {
-      const response = await createSubject(req.body)
+      const response = await createConversation(req.body);
 
-      return res.status(response?.statusCode).json(response)
+      const iaResponse = await guidedStudy(subjectId, userId)
+
+      return res.status(response?.statusCode).json({... iaResponse, data: [response?.data, iaResponse?.data]})
     }
-    
-    default:
+
+    default: {
       return res.status(405).json({message: 'Method Not Allowed', error: true})
+    }
   }
 }

@@ -58,6 +58,7 @@ model Conversation {
 
   isGenerated Boolean
   text String
+  createdAt DateTime @default(now())
 }
 
 model Question {
