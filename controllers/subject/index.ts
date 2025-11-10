@@ -16,7 +16,7 @@ export const fetchSubjects = async (collectionId: number) => {
 
 export const fetchSubject = async (id: number) => {
   try {
-    const subject = await prisma.subject.findUnique({where: { id }});
+    const subject = await prisma.subject.findUnique({where: { id }, include: {conversation: true, question: true}});
 
     if(!subject) return {statusCode: 404, message: "Assunto não encontrado", error: true};
 
