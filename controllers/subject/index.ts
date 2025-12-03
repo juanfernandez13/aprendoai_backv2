@@ -6,10 +6,18 @@ export const fetchSubjects = async (collectionId: number) => {
   try {
     const subjects = await prisma.subject.findMany({where: { collectionId }});
 
-    if(subjects.length === 0) return {statusCode: 404, message: "Assuntos não encontrados", error: true};
+    if(subjects.length === 0) {
+       return {
+         statusCode: 200, 
+         message: "Nenhum assunto encontrado", 
+         error: false, 
+         data: [] 
+       };
+    }
 
     return {statusCode: 200, message: "Assuntos encontrados", error: false, data: subjects};
   } catch (error) {
+    console.error(error); 
     return {statusCode: 400, message: "Bad request", error: true};
   }  
 }

@@ -55,6 +55,7 @@ export const createUser = async (userData: Prisma.UserModel): Promise<any> => {
     return {statusCode: 201, message: "Conta criada", error: false, token};
 
   } catch (error) {
+    console.error("ERRO DETALHADO PRISMA", error)
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         const failedFields = error.meta?.target;

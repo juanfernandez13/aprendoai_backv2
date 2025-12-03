@@ -8,7 +8,14 @@ export const fetchCollections = async (userId: number) => {
       where: { userId },
     });
 
-    if(collections.length === 0) return {statusCode: 404, message: "Coleções não encontradas", error: true};
+    if(collections.length === 0) {
+      return {
+        statusCode: 200, 
+        message: "Nenhuma coleção encontrada ainda", 
+        error: false, 
+        data: [] 
+      };
+    }
 
     return {statusCode: 200, message: "Coleções encontradas", error: false, data: collections};
 
@@ -33,15 +40,20 @@ export const fetchCollection = async (id: number) => {
   }
 }
 
-export const createCollection = async (data: Prisma.CollectionModel) => {
+export const createCollection = async (data: any) => { 
   try {
+    console.log("Tentando criar coleção com dados:", data); // DEBUG 1
+
     const collection = await prisma.collection.create({ data });
 
-    if(!collection) return {statusCode: 400, message: "Bad request", error: true};
+    if(!collection) return {statusCode: 400, message: "Erro ao criar", error: true};
 
     return {statusCode: 201, message: "Coleção criada", error: false, data: collection};
 
   } catch (error) {
+    console.error("ERRO PRISMA CREATE COLLECTION:", error); 
+    
+
     return {statusCode: 400, message: "Bad request", error: true};    
   }
 }
