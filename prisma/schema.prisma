@@ -23,6 +23,9 @@ model Collection {
   id      Int       @id @default(autoincrement())
   userId  Int
   name    String
+  
+  image   String?   
+  
   user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   subject Subject[]
 }
@@ -32,6 +35,9 @@ model Subject {
   collectionId Int
   resume       String         @default("")
   name         String
+  
+  image        String?        
+
   conversation Conversation[]
   question     Question[]
   collection   Collection     @relation(fields: [collectionId], references: [id], onDelete: Cascade)
